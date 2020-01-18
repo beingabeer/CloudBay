@@ -17,8 +17,3 @@ class ItemDetailView(DetailView):
 def checkout(request):
     return render(request, "checkout-page.html")
 
-
-# def products(request):
-#     context = {"items": Item.objects.all()}
-#     return render(request, "product-page.html", context)
-
