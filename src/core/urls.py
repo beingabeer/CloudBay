@@ -5,6 +5,6 @@ app_name = "core"
 
 urlpatterns = [
     path("", views.HomeView.as_view(), name="item-list"),
-    path("product/", views.products, name="product-page"),
+    path("product/<slug>", views.ItemDetailView.as_view(), name="product-detail"),
     path("checkout/", views.checkout, name="checkout-page"),
 ]
