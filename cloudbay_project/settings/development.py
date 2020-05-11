@@ -1,15 +1,17 @@
 from .base import *
 
-DEBUG = True
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+DEBUG = int(os.environ.get("DEBUG", default=0))
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS").split(" ")
 
 
 INSTALLED_APPS += [
-    'debug_toolbar',
+    "debug_toolbar",
 ]
 
 
-MIDDLEWARE += ['debug_toolbar.middleware.DebugToolbarMiddleware',]
+MIDDLEWARE += [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
+]
 
 
 DEBUG_TOOLBAR_PANELS = [
@@ -27,6 +29,7 @@ DEBUG_TOOLBAR_PANELS = [
     "debug_toolbar.panels.redirects.RedirectsPanel",
 ]
 
+
 def show_toolbar(request):
     return True
 
@@ -38,8 +41,8 @@ DEBUG_TOOLBAR_CONFIG = {
 
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
 }

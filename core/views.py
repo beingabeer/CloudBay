@@ -16,4 +16,3 @@ class ItemDetailView(DetailView):
 
 def checkout(request):
     return render(request, "checkout-page.html")
-
