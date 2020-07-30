@@ -6,7 +6,7 @@
         <!-- Brand -->
         <a class="navbar-brand waves-effect" href="{% url 'core:item-list' %}">
             <img style="height:50px;width: 50px;margin-right: 5px;" src="{% static 'img/cloudbay7.png' %}" alt="">
-            <strong style="color: gold;font-weight:bold;">CloudBay</strong>
+            <strong style="color: gold;font-weight:bold;">CloudBay&nbsp;&nbsp;&nbsp;&nbsp;</strong>
         </a>
 
         <!-- Collapse -->
@@ -20,24 +20,29 @@
 
             <!-- Left -->
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <!-- <li class="nav-item active">
                     <a class="nav-link waves-effect" style="font-size: large;margin-right: 10px;"
                         href="{% url 'core:item-list' %}"><i class="fa fa-home fa-lg"></i>&nbsp;Home
                         <span class="sr-only">(current)</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                     <a class="nav-link waves-effect" style="font-size: large;margin-right: 10px;" href="#"><i
-                            class="fa fa-box fa-lg"></i>&nbsp;Products</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link waves-effect" style="font-size: large" href=" {% url 'core:checkout-page' %}"><i
-                            class="fa fa-credit-card fa-lg"></i>&nbsp;Checkout</a>
+                            class="fa fa-box fa-lg"></i>&nbsp;Shop</a>
                 </li>
             </ul>
 
             <!-- Right -->
             <ul class="navbar-nav nav-flex-icons">
+                {% if request.user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" style="font-size: large" href=" {% url 'account_logout' %}"><i
+                            class="fa fa-power-off fa-lg"></i>&nbsp;Logout &nbsp;&nbsp;&nbsp;&nbsp;</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" style="font-size: large" href=" {% url 'core:checkout-page' %}"><i
+                            class="fa fa-credit-card fa-lg"></i>&nbsp;Checkout&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link waves-effect" style="font-size: large">
                         <span class="badge red z-depth-1 mr-1"> 1 </span>
@@ -45,6 +50,19 @@
                         <span class="clearfix d-none d-sm-inline-block"> Cart </span>
                     </a>
                 </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" style="font-size: large" href=" {% url 'account_login' %}"><i
+                            class="fa fa-power-off fa-lg"></i>&nbsp;Login &nbsp;&nbsp;&nbsp;&nbsp;</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect" style="font-size: large" href=" {% url 'account_signup' %}"><i
+                            class="fa fa-user-plus fa-lg"></i>&nbsp;Signup &nbsp;&nbsp;&nbsp;&nbsp;</a>
+                </li>
+                {% endif %}
+
+
+
             </ul>
 
         </div>
