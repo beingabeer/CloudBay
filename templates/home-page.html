@@ -251,12 +251,20 @@
                 </h5>
 
                 <h4 class="font-weight-bold blue-text">
-                  <strong>$
+                  <strong>
                     {% if item.discount_price %}
+                    <span class="mr-1">
+                      <del>${{ item.price }}</del>
+                    </span>
+                    <span>${{ item.discount_price }}</span>
+                    {% else %}
+                    <span>${{ item.price }}</span>
+                    {% endif %}
+                    <!-- {% if item.discount_price %}
                     {{ item.discount_price }}
                     {% else %}
                     {{ item.price }}
-                    {% endif %}
+                    {% endif %} -->
                   </strong>
                 </h4>
               </div>
