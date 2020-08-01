@@ -118,8 +118,9 @@ def remove_single_item_from_cart(request, slug):
 
 class CheckoutView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
+        order = Order.objects.get(user=self.request.user, ordered=False)
         form = CheckoutForm()
-        context = {"form": form}
+        context = {"form": form, "order": order}
         return render(self.request, "checkout-page.html", context)
 
     def post(self, *args, **kwargs):
@@ -127,10 +128,10 @@ class CheckoutView(LoginRequiredMixin, View):
         try:
             order = Order.objects.get(user=self.request.user, ordered=False)
             if form.is_valid():
-                street_address = form.cleaned_data.get("street_address")
-                apartment_address = form.cleaned_data.get("apartment_address")
-                country = form.cleaned_data.get("country")
-                zip_code = form.cleaned_data.get("zip_code")
+                street_address = form.cleaned_data.get("shipping_address")
+                apartment_address = form.cleaned_data.get("shipping_address2")
+                country = form.cleaned_data.get("shipping_country")
+                zip_code = form.cleaned_data.get("shipping_zip")
                 # same_billing_address = form.cleaned_data.get("same_billing_address")
                 # save_info = form.cleaned_data.get("save_info")
                 payment_option = form.cleaned_data.get("payment_option")
@@ -144,7 +145,15 @@ class CheckoutView(LoginRequiredMixin, View):
                 billing_address.save()
                 order.billing_address = billing_address
                 order.save()
-                # TODO redirect to selected payment option
+
+                if payment_option == "S":
+                    return redirect("core:payment", payment_option="stripe")
+                elif payment_option == "P":
+                    return redirect("core:payment", payment_option="paypal")
+                else:
+                    messages.warning(self.request, "Invalid payment option selected")
+                    return redirect("core:checkout")
+
                 return redirect("core:checkout-page")
             messages.warning(self.request, "Checkout Failed")
             return redirect("core:checkout-page")
@@ -155,8 +164,9 @@ class CheckoutView(LoginRequiredMixin, View):
 
 class PaymentView(View):
     def get(self, *args, **kwargs):
-        # order
-        return render(self.request, "payment.html")
+        order = Order.objects.get(user=self.request.user, ordered=False)
+        context = {"order": order}
+        return render(self.request, "payment.html", context)
 
     def post(self, *args, **kwargs):
         order = Order.objects.get(user=self.request.user, ordered=False)
