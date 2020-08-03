@@ -118,7 +118,11 @@ def remove_single_item_from_cart(request, slug):
 
 class CheckoutView(LoginRequiredMixin, View):
     def get(self, *args, **kwargs):
-        order = Order.objects.get(user=self.request.user, ordered=False)
+        try:
+            order = Order.objects.get(user=self.request.user, ordered=False)
+        except ObjectDoesNotExist:
+            messages.warning(self.request, "You do not have an active order")
+            return redirect("/")
         form = CheckoutForm()
         context = {"form": form, "order": order}
         return render(self.request, "checkout-page.html", context)
