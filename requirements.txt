@@ -10,7 +10,7 @@ Django==2.2.5
 django-allauth==0.41.0
 django-countries==6.1.2
 django-crispy-forms==1.9.2
-django-debug-toolbar==2.1
+django-debug-toolbar==2.2.1
 gunicorn==20.0.4
 idna==2.8
 isort==4.3.21
